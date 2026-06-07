@@ -10,6 +10,7 @@ Solo contiene rutas. Cada responsabilidad en su propio archivo:
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 from config import Config
 from database.models import db, Usuario, Manga, Capitulo, Favorito, Historial
