@@ -1,0 +1,619 @@
+/* ══════════════════════════════════════════════════════════════════
+   MangaVerse — Paleta Creme/Sand/Dusty Pink/Burgundy
+   Fuentes: Bebas Neue (display), Orbitron (brand), Noto Sans JP (body)
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:          #f5ede3;
+  --bg2:         #EEE4DA;
+  --bg3:         #e8d8ca;
+  --card:        #ffffff;
+  --card-hover:  #fdf6f0;
+  --border:      rgba(77,14,19,0.1);
+  --accent:      #4D0E13;
+  --accent2:     #7a1a21;
+  --accent-glow: rgba(77,14,19,0.25);
+  --gold:        #C8A49F;
+  --text:        #2a0a0c;
+  --text2:       #7a5a5e;
+  --text3:       #b99fa3;
+  --free-color:  #4D0E13;
+  --premium-color:#C8A49F;
+  --ultra-color: #D8C4AC;
+  --radius:      12px;
+  --radius-sm:   8px;
+  --shadow:      0 8px 32px rgba(77,14,19,0.12);
+  --transition:  0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ── Navbar ── */
+.navbar {
+  position: sticky; top: 0; z-index: 1000;
+  display: flex; align-items: center; gap: 2rem;
+  padding: 0 2.5rem;
+  height: 64px;
+  background: rgba(77,14,19,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem; font-weight: 900;
+  color: var(--bg2); text-decoration: none;
+  letter-spacing: 2px;
+}
+.brand-icon { color: var(--gold); font-size: 1.1rem; }
+.brand-accent { color: var(--gold); }
+.nav-links { display: flex; align-items: center; gap: 0.25rem; margin-left: auto; }
+.nav-link {
+  color: rgba(238,228,218,0.7); text-decoration: none;
+  padding: 6px 14px; border-radius: 6px;
+  font-size: 0.9rem; font-weight: 400;
+  transition: color var(--transition), background var(--transition);
+}
+.nav-link:hover, .nav-link.active { color: var(--bg2); background: rgba(255,255,255,0.1); }
+.nav-btn {
+  padding: 7px 18px; border-radius: 6px;
+  font-size: 0.85rem; font-weight: 700;
+  text-decoration: none; margin-left: 6px;
+  transition: all var(--transition);
+  letter-spacing: 0.5px;
+}
+.btn-primary {
+  background: var(--gold); color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+.btn-primary:hover { background: #D8C4AC; transform: translateY(-1px); }
+.btn-outline {
+  border: 1px solid rgba(238,228,218,0.3); color: var(--bg2);
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; margin-left: auto; }
+.hamburger span { width: 24px; height: 2px; background: var(--bg2); border-radius: 2px; transition: all 0.3s; }
+
+/* ── Flash ── */
+.flash-container { padding: 12px 2.5rem 0; display: flex; flex-direction: column; gap: 8px; }
+.flash {
+  padding: 12px 18px; border-radius: var(--radius-sm);
+  font-size: 0.88rem; font-weight: 600; border-left: 3px solid;
+}
+.flash--success { background: rgba(77,14,19,0.08);  border-color: var(--accent);  color: var(--accent); }
+.flash--error   { background: rgba(200,164,159,0.2); border-color: var(--gold);    color: var(--accent2); }
+.flash--warning { background: rgba(216,196,172,0.3); border-color: #D8C4AC;        color: var(--accent); }
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex; align-items: center;
+  overflow: hidden;
+  padding: 5rem 2.5rem 4rem;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(200,164,159,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at 20% 80%, rgba(216,196,172,0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #EEE4DA 0%, #f5ede3 100%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(77,14,19,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,14,19,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 640px; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(77,14,19,0.08); border: 1px solid rgba(77,14,19,0.2);
+  color: var(--accent2); padding: 5px 14px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.hero-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.95;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+  letter-spacing: 2px;
+}
+.hero-title span { color: var(--accent2); }
+.hero-desc {
+  color: var(--text2); font-size: 1.05rem;
+  max-width: 480px; margin-bottom: 2rem; line-height: 1.75;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-hero {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 8px;
+  font-size: 0.95rem; font-weight: 700; text-decoration: none;
+  transition: all var(--transition); letter-spacing: 0.5px;
+}
+.btn-hero-primary {
+  background: var(--accent); color: var(--bg2);
+  box-shadow: 0 4px 24px var(--accent-glow);
+}
+.btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--accent-glow); }
+.btn-hero-secondary {
+  background: rgba(77,14,19,0.07);
+  border: 1px solid rgba(77,14,19,0.2); color: var(--accent);
+}
+.btn-hero-secondary:hover { background: rgba(77,14,19,0.12); transform: translateY(-2px); }
+
+/* ── Sections ── */
+.section { padding: 4rem 2.5rem; }
+.section-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+.section-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.8rem; letter-spacing: 2px; color: var(--accent);
+}
+.section-title span { color: var(--accent2); }
+.section-link {
+  color: var(--accent); text-decoration: none;
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px;
+  transition: color var(--transition);
+}
+.section-link:hover { color: var(--accent2); }
+
+/* ── Manga Grid ── */
+.manga-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1.25rem;
+}
+.manga-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  cursor: pointer;
+  text-decoration: none; color: inherit;
+  display: block;
+}
+.manga-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(77,14,19,0.15), 0 0 0 1px var(--accent);
+  border-color: var(--accent);
+}
+.manga-cover {
+  position: relative;
+  aspect-ratio: 2/3; overflow: hidden;
+}
+.manga-cover img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform var(--transition);
+}
+.manga-card:hover .manga-cover img { transform: scale(1.06); }
+.manga-badge {
+  position: absolute; top: 8px; left: 8px;
+  padding: 3px 8px; border-radius: 4px;
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.badge-free    { background: var(--accent);  color: var(--bg2); }
+.badge-premium { background: var(--gold);    color: var(--accent); }
+.manga-rating {
+  position: absolute; bottom: 8px; right: 8px;
+  background: rgba(77,14,19,0.75); padding: 3px 8px;
+  border-radius: 4px; font-size: 0.72rem; font-weight: 700;
+  color: var(--bg2); display: flex; align-items: center; gap: 3px;
+}
+.manga-info { padding: 12px; }
+.manga-title {
+  font-weight: 700; font-size: 0.88rem; line-height: 1.3;
+  margin-bottom: 4px; color: var(--text);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.manga-meta {
+  font-size: 0.75rem; color: var(--text3);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.manga-status {
+  font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 3px;
+}
+.status-emision  { background: rgba(77,14,19,0.1);  color: var(--accent); }
+.status-completo { background: rgba(200,164,159,0.2); color: var(--accent2); }
+.status-pausado  { background: rgba(216,196,172,0.3); color: var(--text2); }
+
+/* ── Featured Row (big cards) ── */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.featured-card {
+  position: relative; aspect-ratio: 16/9;
+  border-radius: var(--radius); overflow: hidden;
+  text-decoration: none; color: inherit;
+  border: 1px solid var(--border);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.featured-card:hover { transform: scale(1.03); box-shadow: 0 20px 50px rgba(77,14,19,0.2); }
+.featured-card img { width: 100%; height: 100%; object-fit: cover; }
+.featured-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(77,14,19,0.85) 0%, transparent 60%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 16px;
+}
+.featured-title { font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 1px; color: var(--bg2); }
+.featured-meta  { font-size: 0.75rem; color: var(--gold); margin-top: 4px; }
+
+/* ── Auth pages ── */
+.auth-page {
+  min-height: calc(100vh - 64px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem 1rem;
+  background:
+    radial-gradient(ellipse 60% 80% at 30% 50%, rgba(200,164,159,0.2) 0%, transparent 60%),
+    var(--bg);
+}
+.auth-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%; max-width: 420px;
+  box-shadow: var(--shadow);
+}
+.auth-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem; letter-spacing: 2px;
+  margin-bottom: 0.5rem; color: var(--accent);
+}
+.auth-title span { color: var(--accent2); }
+.auth-sub { color: var(--text2); font-size: 0.88rem; margin-bottom: 1.75rem; }
+.form-group { margin-bottom: 1.25rem; }
+.form-label {
+  display: block; font-size: 0.82rem; font-weight: 700;
+  color: var(--text2); margin-bottom: 6px; letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.form-input {
+  width: 100%; padding: 11px 14px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif; font-size: 0.9rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(77,14,19,0.1);
+}
+.form-input::placeholder { color: var(--text3); }
+.btn-submit {
+  width: 100%; padding: 12px;
+  background: var(--accent); color: var(--bg2); border: none;
+  border-radius: var(--radius-sm); font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 4px 16px var(--accent-glow);
+  letter-spacing: 0.5px;
+}
+.btn-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+.auth-footer { margin-top: 1.25rem; text-align: center; font-size: 0.85rem; color: var(--text2); }
+.auth-footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
+.demo-hint {
+  background: rgba(77,14,19,0.06); border: 1px solid rgba(77,14,19,0.15);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 1.25rem;
+  font-size: 0.8rem; color: var(--text2);
+}
+.demo-hint strong { color: var(--accent); }
+
+/* ── Catálogo ── */
+.catalogo-header {
+  padding: 3rem 2.5rem 1.5rem;
+  background: linear-gradient(to bottom, var(--bg2), var(--bg));
+}
+.catalogo-title { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; letter-spacing: 3px; color: var(--accent); }
+.catalogo-title span { color: var(--accent2); }
+.search-bar {
+  display: flex; gap: 10px; margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+.search-input {
+  flex: 1; min-width: 240px; padding: 10px 16px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif; font-size: 0.9rem; outline: none;
+  transition: border-color var(--transition);
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--text3); }
+.search-btn {
+  padding: 10px 22px; background: var(--accent); color: var(--bg2);
+  border: none; border-radius: 8px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; transition: all var(--transition);
+}
+.search-btn:hover { background: var(--accent2); }
+.genre-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem;
+}
+.genre-btn {
+  padding: 5px 14px; border-radius: 20px;
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text2); font-size: 0.8rem; font-weight: 600;
+  text-decoration: none; transition: all var(--transition);
+}
+.genre-btn:hover, .genre-btn.active {
+  background: var(--accent); border-color: var(--accent); color: var(--bg2);
+}
+
+/* ── Detalle manga ── */
+.manga-detail {
+  display: grid; grid-template-columns: 240px 1fr; gap: 3rem;
+  padding: 3rem 2.5rem; max-width: 1100px; margin: 0 auto;
+}
+.manga-detail-cover { position: sticky; top: 80px; height: fit-content; }
+.manga-detail-cover img {
+  width: 100%; border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(77,14,19,0.2);
+}
+.manga-detail-info h1 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.8rem; letter-spacing: 2px; line-height: 1;
+  margin-bottom: 12px; color: var(--accent);
+}
+.manga-detail-meta {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.25rem;
+  align-items: center;
+}
+.detail-tag {
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 0.78rem; color: var(--text2);
+}
+.manga-detail-desc {
+  color: var(--text2); line-height: 1.85; margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+.chapters-list { margin-top: 2rem; }
+.chapters-title { font-family: 'Bebas Neue', cursive; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 1rem; color: var(--accent); }
+.chapter-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-radius: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  margin-bottom: 6px; text-decoration: none; color: var(--text);
+  transition: all var(--transition);
+}
+.chapter-item:hover { border-color: var(--accent); background: var(--bg2); padding-left: 22px; }
+.chapter-num { font-weight: 700; font-size: 0.88rem; }
+.chapter-date { font-size: 0.78rem; color: var(--text3); }
+
+/* ── Lector ── */
+.reader-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 2rem; background: var(--bg2);
+  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50;
+}
+.reader-back { color: var(--accent); text-decoration: none; font-weight: 700; font-size: 0.88rem; }
+.reader-title { font-family: 'Bebas Neue', cursive; font-size: 1.1rem; letter-spacing: 1px; color: var(--accent); }
+.reader-content { max-width: 780px; margin: 2rem auto; padding: 0 1rem; }
+.reader-page {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 3rem;
+  text-align: center; color: var(--text2); font-size: 0.95rem;
+  line-height: 1.9; margin-bottom: 1rem;
+}
+.reader-page .page-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2rem; }
+.page-panel {
+  aspect-ratio: 3/4; background: var(--bg2);
+  border-radius: 8px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.page-panel.featured { grid-column: span 2; aspect-ratio: 16/9; }
+.reader-nav {
+  display: flex; justify-content: center; align-items: center; gap: 16px;
+  padding: 1.5rem; margin-top: 2rem;
+}
+.reader-nav-btn {
+  padding: 10px 28px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); text-decoration: none;
+  font-weight: 700; font-size: 0.88rem; transition: all var(--transition);
+}
+.reader-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Perfil ── */
+.profile-page { padding: 3rem 2.5rem; max-width: 1000px; margin: 0 auto; }
+.profile-header {
+  display: flex; align-items: center; gap: 1.5rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+.profile-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', cursive; font-size: 2rem;
+  color: var(--bg2);
+  flex-shrink: 0;
+}
+.profile-name { font-family: 'Bebas Neue', cursive; font-size: 1.8rem; letter-spacing: 2px; color: var(--accent); }
+.plan-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-top: 4px;
+}
+.plan-free    { background: rgba(77,14,19,0.1);   color: var(--accent); }
+.plan-premium { background: rgba(200,164,159,0.2); color: var(--accent2); }
+.plan-ultra   { background: rgba(216,196,172,0.3); color: var(--text2); }
+.empty-state {
+  text-align: center; padding: 3rem; color: var(--text3);
+  background: var(--card); border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ── Planes ── */
+.planes-page { padding: 4rem 2.5rem; }
+.planes-title {
+  text-align: center; font-family: 'Bebas Neue', cursive;
+  font-size: 3rem; letter-spacing: 3px; margin-bottom: 0.5rem; color: var(--accent);
+}
+.planes-title span { color: var(--accent2); }
+.planes-sub { text-align: center; color: var(--text2); margin-bottom: 3rem; }
+.planes-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.plan-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; position: relative;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.plan-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(77,14,19,0.12); }
+.plan-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 12px 40px rgba(77,14,19,0.15);
+}
+.plan-popular {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: var(--bg2); padding: 3px 16px;
+  border-radius: 20px; font-size: 0.72rem; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.plan-name { font-family: 'Bebas Neue', cursive; font-size: 1.6rem; letter-spacing: 2px; margin-bottom: 8px; color: var(--accent); }
+.plan-price { font-size: 2.2rem; font-weight: 900; margin-bottom: 4px; color: var(--accent); }
+.plan-price span { font-size: 1rem; font-weight: 400; color: var(--text2); }
+.plan-desc { font-size: 0.83rem; color: var(--text2); margin-bottom: 1.5rem; }
+.plan-features { list-style: none; margin-bottom: 1.75rem; }
+.plan-features li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; padding: 6px 0; border-bottom: 1px solid var(--border);
+  color: var(--text2);
+}
+.plan-features li:last-child { border-bottom: none; }
+.feat-icon { font-size: 0.9rem; }
+.plan-btn {
+  display: block; text-align: center; padding: 11px;
+  border-radius: 8px; font-weight: 700; text-decoration: none;
+  font-size: 0.9rem; transition: all var(--transition); letter-spacing: 0.5px;
+}
+.plan-btn-accent { background: var(--accent); color: var(--bg2); box-shadow: 0 4px 16px var(--accent-glow); }
+.plan-btn-accent:hover { background: var(--accent2); }
+.plan-btn-gold { background: var(--gold); color: var(--accent); }
+.plan-btn-gold:hover { filter: brightness(1.08); }
+.plan-btn-purple { background: #D8C4AC; color: var(--accent); }
+.plan-btn-purple:hover { background: #c8b09c; }
+
+/* ── Divider ── */
+.divider {
+  height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 0 2.5rem;
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--accent); border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 2.5rem 2.5rem; margin-top: 4rem;
+}
+.footer-inner { display: flex; gap: 3rem; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; }
+.footer-brand .brand-icon { color: var(--gold); }
+.footer-brand p { color: rgba(238,228,218,0.6); font-size: 0.82rem; margin-top: 6px; }
+.footer-brand .nav-brand { color: var(--bg2); }
+.footer-links { display: flex; flex-direction: column; gap: 8px; }
+.footer-links a { color: rgba(238,228,218,0.7); text-decoration: none; font-size: 0.85rem; transition: color var(--transition); }
+.footer-links a:hover { color: var(--gold); }
+.footer-credits { color: rgba(238,228,218,0.5); font-size: 0.78rem; line-height: 1.8; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 1rem; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--accent); border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 1.5rem; gap: 8px; z-index: 999;
+  }
+  .hamburger { display: flex; }
+  .hero { min-height: 60vh; }
+  .manga-detail { grid-template-columns: 1fr; }
+  .manga-detail-cover { position: static; max-width: 200px; margin: 0 auto; }
+  .section { padding: 2rem 1rem; }
+  .catalogo-header { padding: 2rem 1rem 1rem; }
+  .manga-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+
+/* ── Animations ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes glow   { 0%,100% { box-shadow: 0 0 20px var(--accent-glow); } 50% { box-shadow: 0 0 40px var(--accent-glow); } }
+
+.animate-up { animation: fadeUp 0.6s ease both; }
+.animate-up:nth-child(2) { animation-delay: 0.1s; }
+.animate-up:nth-child(3) { animation-delay: 0.2s; }
+.animate-up:nth-child(4) { animation-delay: 0.3s; }
+
+/* ── Hero Carrusel ── */
+.hero-carousel {
+  position: absolute; inset: 0; z-index: 0;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  filter: blur(2px) brightness(0.9);
+  transform: scale(1.04);
+}
+.hero-slide.active { opacity: 1; }
+.hero-carousel-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(238,228,218,0.93) 0%,
+    rgba(238,228,218,0.78) 45%,
+    rgba(77,14,19,0.25) 100%
+  );
+}
+.hero .hero-bg   { z-index: 2; opacity: 0.4; }
+.hero .hero-grid { z-index: 3; }
+.hero-content    { z-index: 4; }
+
+/* Puntitos indicadores */
+.carousel-dots {
+  display: flex; gap: 8px; margin-top: 2rem;
+}
+.carousel-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(77,14,19,0.25);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.carousel-dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}

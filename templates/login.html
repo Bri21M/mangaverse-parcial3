@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar sesión — MangaVerse{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-title">BIENVENIDO A <span>MANGA</span>VERSE</h1>
+    <p class="auth-sub">Inicia sesión para acceder a tu catálogo.</p>
+
+    <div class="demo-hint">
+      💡 <strong>Cuenta demo:</strong> demo@manga.com / demo1234 (Plan Premium)
+    </div>
+
+    <form method="post" action="{{ url_for('login') }}">
+      <div class="form-group">
+        <label class="form-label" for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" class="form-input" placeholder="tu@correo.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Contraseña</label>
+        <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-submit">Iniciar sesión</button>
+    </form>
+
+    <div class="auth-footer">
+      ¿No tienes cuenta? <a href="{{ url_for('registro') }}">Regístrate gratis</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

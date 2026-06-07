@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}MangaVerse — Tu plataforma de manga{% endblock %}
+
+{% block content %}
+<!-- ── Hero ── -->
+<section class="hero">
+  <!-- Carrusel de fondo -->
+  <div class="hero-carousel">
+    {% for manga in destacados %}
+    <div class="hero-slide {% if loop.first %}active{% endif %}"
+         style="background-image: url('{{ manga.portada_url }}')"></div>
+    {% endfor %}
+  </div>
+  <div class="hero-carousel-overlay"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag animate-up">⬡ Nueva plataforma</div>
+    <h1 class="hero-title animate-up">
+      LEE MANGA<br><span>SIN LÍMITES</span>
+    </h1>
+    <p class="hero-desc animate-up">
+      Miles de títulos organizados en un catálogo moderno. 
+      Accede desde cualquier dispositivo con tu suscripción.
+    </p>
+    <div class="hero-actions animate-up">
+      <a href="{{ url_for('catalogo') }}" class="btn-hero btn-hero-primary">▶ Ver catálogo</a>
+      {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('registro') }}" class="btn-hero btn-hero-secondary">Crear cuenta gratis</a>
+      {% else %}
+        <a href="{{ url_for('perfil') }}" class="btn-hero btn-hero-secondary">Mi perfil</a>
+      {% endif %}
+    </div>
+    <!-- Indicadores -->
+    <div class="carousel-dots">
+      {% for manga in destacados %}
+      <span class="carousel-dot {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}"></span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats strip ── -->
+<div style="display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);">
+  {% for stat, label in [('8+', 'Títulos disponibles'), ('205+', 'Capítulos totales'), ('3', 'Planes de acceso'), ('100%', 'Gratis para empezar')] %}
+  <div style="flex:1;padding:1.25rem;text-align:center;border-right:1px solid var(--border);">
+    <div style="font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--accent);letter-spacing:2px;">{{ stat }}</div>
+    <div style="font-size:0.75rem;color:var(--text3);margin-top:2px;">{{ label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ── Destacados ── -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">⭐ MEJOR <span>VALORADOS</span></h2>
+    <a href="{{ url_for('catalogo') }}" class="section-link">Ver todos →</a>
+  </div>
+  <div class="featured-grid">
+    {% for manga in destacados %}
+    <a href="{{ url_for('detalle_manga', manga_id=manga.id) }}" class="featured-card">
+      <img src="{{ manga.portada_url }}" alt="{{ manga.titulo }}" onerror="this.src='https://via.placeholder.com/400x225/EEE4DA/4D0E13?text={{ manga.titulo|urlencode }}'">
+      <div class="featured-overlay">
+        <div class="featured-title">{{ manga.titulo }}</div>
+        <div class="featured-meta">⭐ {{ manga.valoracion }} &nbsp;·&nbsp; {{ manga.capitulos_num }} caps.</div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Recientes ── -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">🔥 TÍTULOS <span>DISPONIBLES</span></h2>
+    <a href="{{ url_for('catalogo') }}" class="section-link">Ver todos →</a>
+  </div>
+  <div class="manga-grid">
+    {% for manga in recientes %}
+    <a href="{{ url_for('detalle_manga', manga_id=manga.id) }}" class="manga-card">
+      <div class="manga-cover">
+        <img src="{{ manga.portada_url }}" alt="{{ manga.titulo }}" onerror="this.src='https://via.placeholder.com/200x300/EEE4DA/4D0E13?text=Manga'">
+        <span class="manga-badge {% if manga.acceso_libre %}badge-free{% else %}badge-premium{% endif %}">
+          {{ 'FREE' if manga.acceso_libre else 'PREMIUM' }}
+        </span>
+        <span class="manga-rating">⭐ {{ manga.valoracion }}</span>
+      </div>
+      <div class="manga-info">
+        <div class="manga-title">{{ manga.titulo }}</div>
+        <div class="manga-meta">
+          <span>{{ manga.capitulos_num }} caps.</span>
+          <span class="manga-status {% if manga.estado == 'En emisión' %}status-emision{% elif manga.estado == 'Completo' %}status-completo{% else %}status-pausado{% endif %}">
+            {{ manga.estado }}
+          </span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Free section ── -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">🆓 LECTURA <span>GRATUITA</span></h2>
+  </div>
+  <div class="manga-grid">
+    {% for manga in libres %}
+    <a href="{{ url_for('detalle_manga', manga_id=manga.id) }}" class="manga-card">
+      <div class="manga-cover">
+        <img src="{{ manga.portada_url }}" alt="{{ manga.titulo }}" onerror="this.src='https://via.placeholder.com/200x300/EEE4DA/4D0E13?text=FREE'">
+        <span class="manga-badge badge-free">FREE</span>
+        <span class="manga-rating">⭐ {{ manga.valoracion }}</span>
+      </div>
+      <div class="manga-info">
+        <div class="manga-title">{{ manga.titulo }}</div>
+        <div class="manga-meta">
+          <span>{{ manga.autor }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+{% if not current_user.is_authenticated %}
+<section class="section" style="text-align:center;padding:4rem 2.5rem;">
+  <div style="max-width:540px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:3rem 2rem;">
+    <div style="font-family:'Bebas Neue',cursive;font-size:2.2rem;letter-spacing:2px;margin-bottom:12px;">
+      EMPIEZA A LEER <span style="color:var(--accent)">HOY</span>
+    </div>
+    <p style="color:var(--text2);margin-bottom:1.5rem;">Crea tu cuenta gratis y accede a decenas de títulos.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="{{ url_for('registro') }}" class="btn-hero btn-hero-primary">Crear cuenta gratis</a>
+      <a href="{{ url_for('planes') }}" class="btn-hero btn-hero-secondary">Ver planes</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.carousel-dot');
+  let current  = 0;
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  // Auto-avance cada 4 segundos
+  setInterval(() => goTo((current + 1) % slides.length), 4000);
+
+  // Click en los puntitos
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => goTo(parseInt(dot.dataset.index)));
+  });
+</script>
+{% endblock %}

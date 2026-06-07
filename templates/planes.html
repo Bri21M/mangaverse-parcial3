@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Planes de suscripción — MangaVerse{% endblock %}
+{% block content %}
+<div class="planes-page">
+  <h1 class="planes-title">ELIGE TU <span>PLAN</span></h1>
+  <p class="planes-sub">Accede a todo el catálogo con la suscripción que más se adapte a ti.</p>
+
+  <div class="planes-grid">
+    <!-- Free -->
+    <div class="plan-card">
+      <div class="plan-name" style="color:var(--free-color)">🆓 Gratis</div>
+      <div class="plan-price">$0 <span>/ mes</span></div>
+      <p class="plan-desc">Perfecto para comenzar tu aventura manga.</p>
+      <ul class="plan-features">
+        <li><span class="feat-icon">✅</span> Acceso a títulos gratuitos</li>
+        <li><span class="feat-icon">✅</span> Crear cuenta y perfil</li>
+        <li><span class="feat-icon">✅</span> Añadir a favoritos</li>
+        <li><span class="feat-icon">❌</span> Títulos premium bloqueados</li>
+        <li><span class="feat-icon">❌</span> Sin historial avanzado</li>
+      </ul>
+      {% if current_user.is_authenticated %}
+        <span class="plan-btn" style="background:var(--bg2);color:var(--text2);border-radius:8px;display:block;text-align:center;padding:11px;font-weight:700;">
+          {% if current_user.plan == 'free' %}✔ Tu plan actual{% else %}Plan básico{% endif %}
+        </span>
+      {% else %}
+        <a href="{{ url_for('registro') }}" class="plan-btn" style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;display:block;text-align:center;padding:11px;font-weight:700;text-decoration:none;">
+          Empezar gratis
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Premium -->
+    <div class="plan-card featured">
+      <div class="plan-popular">⭐ MÁS POPULAR</div>
+      <div class="plan-name" style="color:var(--gold)">⭐ Premium</div>
+      <div class="plan-price" style="color:var(--gold)">$79 <span>/ mes</span></div>
+      <p class="plan-desc">La experiencia completa para fans del manga.</p>
+      <ul class="plan-features">
+        <li><span class="feat-icon">✅</span> Todo lo del plan gratuito</li>
+        <li><span class="feat-icon">✅</span> Acceso a TODO el catálogo</li>
+        <li><span class="feat-icon">✅</span> Historial de lectura</li>
+        <li><span class="feat-icon">✅</span> Sin anuncios</li>
+        <li><span class="feat-icon">✅</span> Nuevos capítulos al instante</li>
+      </ul>
+      {% if current_user.is_authenticated %}
+        <span class="plan-btn plan-btn-gold" style="display:block;text-align:center;padding:11px;font-weight:700;border-radius:8px;cursor:pointer;">
+          {% if current_user.plan == 'premium' %}✔ Tu plan actual{% else %}Contratar Premium{% endif %}
+        </span>
+      {% else %}
+        <a href="{{ url_for('registro') }}" class="plan-btn plan-btn-gold" style="display:block;text-align:center;padding:11px;font-weight:700;text-decoration:none;border-radius:8px;">
+          Empezar con Premium
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Ultra -->
+    <div class="plan-card">
+      <div class="plan-name" style="color:var(--ultra-color)">💎 Ultra</div>
+      <div class="plan-price" style="color:var(--ultra-color)">$149 <span>/ mes</span></div>
+      <p class="plan-desc">Para los verdaderos otakus sin límites.</p>
+      <ul class="plan-features">
+        <li><span class="feat-icon">✅</span> Todo lo de Premium</li>
+        <li><span class="feat-icon">✅</span> Descarga offline</li>
+        <li><span class="feat-icon">✅</span> Múltiples dispositivos</li>
+        <li><span class="feat-icon">✅</span> Acceso anticipado</li>
+        <li><span class="feat-icon">✅</span> Soporte prioritario</li>
+      </ul>
+      {% if current_user.is_authenticated %}
+        <span class="plan-btn plan-btn-purple" style="display:block;text-align:center;padding:11px;font-weight:700;border-radius:8px;cursor:pointer;">
+          {% if current_user.plan == 'ultra' %}✔ Tu plan actual{% else %}Contratar Ultra{% endif %}
+        </span>
+      {% else %}
+        <a href="{{ url_for('registro') }}" class="plan-btn plan-btn-purple" style="display:block;text-align:center;padding:11px;font-weight:700;text-decoration:none;border-radius:8px;">
+          Empezar con Ultra
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="max-width:680px;margin:4rem auto 0;text-align:center;">
+    <div style="font-family:'Bebas Neue',cursive;font-size:1.8rem;letter-spacing:2px;margin-bottom:2rem;">
+      PREGUNTAS <span style="color:var(--accent)">FRECUENTES</span>
+    </div>
+    {% for q, a in [
+      ('¿Puedo cancelar en cualquier momento?', 'Sí, puedes cancelar tu suscripción en cualquier momento desde tu perfil.'),
+      ('¿Los precios incluyen IVA?', 'Los precios mostrados son sin IVA. El total con IVA se calcula al momento del pago.'),
+      ('¿Hay período de prueba?', 'El plan gratuito te permite probar la plataforma sin límite de tiempo.'),
+    ] %}
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:10px;text-align:left;">
+      <div style="font-weight:700;margin-bottom:6px;">{{ q }}</div>
+      <div style="color:var(--text2);font-size:0.88rem;">{{ a }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

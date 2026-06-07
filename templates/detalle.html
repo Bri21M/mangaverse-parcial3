@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}{{ manga.titulo }} — MangaVerse{% endblock %}
+{% block content %}
+
+<div style="max-width:1100px;margin:0 auto;padding:2rem 2.5rem;">
+  <!-- Breadcrumb -->
+  <div style="font-size:0.8rem;color:var(--text3);margin-bottom:2rem;">
+    <a href="{{ url_for('index') }}" style="color:var(--text2);text-decoration:none;">Inicio</a>
+    <span style="margin:0 8px">›</span>
+    <a href="{{ url_for('catalogo') }}" style="color:var(--text2);text-decoration:none;">Catálogo</a>
+    <span style="margin:0 8px">›</span>
+    <span style="color:var(--accent)">{{ manga.titulo }}</span>
+  </div>
+
+  <div class="manga-detail" style="padding:0;">
+    <!-- Cover -->
+    <div class="manga-detail-cover">
+      <img src="{{ manga.portada_url }}" alt="{{ manga.titulo }}"
+           onerror="this.src='https://via.placeholder.com/240x360/141420/e63946?text={{ manga.titulo[:10]|urlencode }}'">
+      <div style="margin-top:1rem;display:flex;flex-direction:column;gap:10px;">
+        {% if current_user.is_authenticated %}
+          {% if capitulos %}
+          <a href="{{ url_for('leer', manga_id=manga.id, cap_num=1) }}"
+             style="display:block;text-align:center;padding:11px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;">
+            ▶ Leer capítulo 1
+          </a>
+          {% endif %}
+          <button
+            id="fav-btn"
+            onclick="toggleFav('{{ manga.id }}', this)"
+            style="width:100%;padding:11px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:'{% if es_favorito %}var(--accent){% else %}var(--text2){% endif %}';font-weight:700;cursor:pointer;transition:all 0.25s;"
+            class="{% if es_favorito %}fav-active{% endif %}">
+            {{ '❤ En favoritos' if es_favorito else '♡ Añadir a favoritos' }}
+          </button>
+        {% else %}
+          <a href="{{ url_for('login') }}"
+             style="display:block;text-align:center;padding:11px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;">
+            Iniciar sesión para leer
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="manga-detail-info">
+      <h1>{{ manga.titulo }}</h1>
+      <div class="manga-detail-meta">
+        <span class="detail-tag">✏ {{ manga.autor }}</span>
+        <span class="detail-tag">⭐ {{ manga.valoracion }}/10</span>
+        <span class="detail-tag">📖 {{ manga.capitulos_num }} capítulos</span>
+        <span class="manga-status {% if manga.estado == 'En emisión' %}status-emision{% elif manga.estado == 'Completo' %}status-completo{% else %}status-pausado{% endif %}" style="padding:4px 12px;border-radius:6px;">
+          {{ manga.estado }}
+        </span>
+        <span class="manga-badge {% if manga.acceso_libre %}badge-free{% else %}badge-premium{% endif %}" style="position:static;">
+          {{ 'FREE' if manga.acceso_libre else 'PREMIUM' }}
+        </span>
+      </div>
+
+      <!-- Genres -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;">
+        {% for g in manga.genero.split(', ') %}
+        <a href="{{ url_for('catalogo', genero=g) }}"
+           style="background:var(--card);border:1px solid var(--border);padding:4px 12px;border-radius:20px;font-size:0.78rem;color:var(--text2);text-decoration:none;transition:all 0.25s;"
+           onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+           onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
+          {{ g }}
+        </a>
+        {% endfor %}
+      </div>
+
+      <p class="manga-detail-desc">{{ manga.descripcion }}</p>
+
+      {% if not puede_leer and current_user.is_authenticated %}
+      <div style="background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.25);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+        <div style="font-weight:700;color:var(--accent);margin-bottom:4px;">🔒 Contenido Premium</div>
+        <p style="font-size:0.88rem;color:var(--text2);">Este manga requiere un plan Premium o Ultra.</p>
+        <a href="{{ url_for('planes') }}" style="display:inline-block;margin-top:10px;color:var(--gold);font-weight:700;text-decoration:none;font-size:0.88rem;">Ver planes →</a>
+      </div>
+      {% endif %}
+
+      <!-- Chapters -->
+      <div class="chapters-list">
+        <div class="chapters-title">CAPÍTULOS <span style="color:var(--accent)">({{ capitulos|length }})</span></div>
+        {% if capitulos %}
+          {% for cap in capitulos %}
+          {% if puede_leer or manga.acceso_libre %}
+          <a href="{{ url_for('leer', manga_id=manga.id, cap_num=cap.numero) }}" class="chapter-item">
+          {% else %}
+          <div class="chapter-item" style="opacity:0.5;cursor:not-allowed;">
+          {% endif %}
+            <span class="chapter-num">Capítulo {{ cap.numero }}{% if cap.titulo %} — {{ cap.titulo }}{% endif %}</span>
+            <span class="chapter-date">{{ cap.paginas }} páginas</span>
+          {% if puede_leer or manga.acceso_libre %}
+          </a>
+          {% else %}
+          </div>
+          {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">No hay capítulos disponibles aún.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

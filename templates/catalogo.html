@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Catálogo — MangaVerse{% endblock %}
+{% block content %}
+
+<div class="catalogo-header">
+  <h1 class="catalogo-title">CATÁLOGO <span>COMPLETO</span></h1>
+  <p style="color:var(--text2);margin-top:6px;font-size:0.9rem;">{{ mangas|length }} títulos disponibles</p>
+
+  <form class="search-bar" action="{{ url_for('catalogo') }}" method="get">
+    <input type="text" name="q" class="search-input" placeholder="Buscar manga por título..." value="{{ busqueda }}">
+    {% if genero_activo %}
+      <input type="hidden" name="genero" value="{{ genero_activo }}">
+    {% endif %}
+    <button type="submit" class="search-btn">🔍 Buscar</button>
+  </form>
+
+  <div class="genre-filters">
+    <a href="{{ url_for('catalogo') }}" class="genre-btn {% if not genero_activo %}active{% endif %}">Todos</a>
+    {% for g in generos %}
+    <a href="{{ url_for('catalogo', genero=g, q=busqueda) }}" class="genre-btn {% if genero_activo == g %}active{% endif %}">{{ g }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<section class="section">
+  {% if mangas %}
+  <div class="manga-grid">
+    {% for manga in mangas %}
+    <a href="{{ url_for('detalle_manga', manga_id=manga.id) }}" class="manga-card">
+      <div class="manga-cover">
+        <img src="{{ manga.portada_url }}" alt="{{ manga.titulo }}"
+             onerror="this.src='https://via.placeholder.com/200x300/141420/e63946?text={{ manga.titulo[:10]|urlencode }}'">
+        <span class="manga-badge {% if manga.acceso_libre %}badge-free{% else %}badge-premium{% endif %}">
+          {{ 'FREE' if manga.acceso_libre else 'PREMIUM' }}
+        </span>
+        <span class="manga-rating">⭐ {{ manga.valoracion }}</span>
+      </div>
+      <div class="manga-info">
+        <div class="manga-title">{{ manga.titulo }}</div>
+        <div class="manga-meta">
+          <span>{{ manga.capitulos_num }} caps.</span>
+          <span class="manga-status {% if manga.estado == 'En emisión' %}status-emision{% elif manga.estado == 'Completo' %}status-completo{% else %}status-pausado{% endif %}">
+            {{ manga.estado }}
+          </span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div style="font-size:3rem;margin-bottom:1rem;">📚</div>
+    <div style="font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:2px;margin-bottom:8px;">Sin resultados</div>
+    <p>No se encontraron mangas con ese criterio.</p>
+    <a href="{{ url_for('catalogo') }}" style="display:inline-block;margin-top:1rem;color:var(--accent);font-weight:700;">Ver todo el catálogo</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
